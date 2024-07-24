@@ -89,7 +89,11 @@ Quarto-processed markdown.
 > **\_hello_first_last.qmd**
 >
 > ``` markdown
-> {{< include _hello_first_last.qmd >}}
+> ::: {.callout-tip title="Hi there!"}
+> {{#person}}
+> Hello, {{ honorific }} {{ name.first }} {{ name.last }}!
+> {{/person}}
+> :::
 > ```
 >
 > </div>
@@ -113,7 +117,11 @@ markdown list from an array of my favorite fruits.
 > **\_favorite_fruits.md**
 >
 > ``` markdown
-> {{< include _favorite_fruits.md >}}
+> These are a few of my favorite fruits:
+>
+> {{#fruits}}
+> - {{.}}
+> {{/fruits}}
 > ```
 >
 > </div>
