@@ -24,15 +24,15 @@ data.
 
 For example, `_hello.md` contains the following content
 
-> <div class="code-with-filename">
->
-> **\_hello.md**
->
-> ``` markdown
-> {{< include _hello.md >}}
-> ```
->
-> </div>
+<div class="code-with-filename">
+
+**\_hello.md**
+
+``` markdown
+Hello, {{ name }}!
+```
+
+</div>
 
 and we can include the partial, providing our own value for
 `{{ name }}`:
@@ -46,11 +46,11 @@ and we can include the partial, providing our own value for
 You can also include the partial data in the frontmatter of your
 document, using the `partial-data` key, e.g. 
 
-> ``` yaml
-> partial-data:
->   name: "friend"
-> ```
->
+``` yaml
+partial-data:
+  name: "friend"
+```
+
 > ``` markdown
 > {{< partial _hello.md >}}
 >
@@ -64,12 +64,12 @@ document, using the `partial-data` key, e.g. 
 Alternatively, the second argument of the shortcode can point to a
 custom key in your YAML frontmatter, e.g.
 
-> ``` yaml
-> my-data:
->   friends:
->     name: amigo
-> ```
->
+``` yaml
+my-data:
+  friends:
+    name: amigo
+```
+
 > ``` markdown
 > {{< partial _hello.md my-data.friends >}}
 > ```
@@ -84,16 +84,20 @@ Note that the file type affects the output. The next example, in
 addition to using JSON data, uses a `.qmd` file to render the output as
 Quarto-processed markdown.
 
-> <div class="code-with-filename">
->
-> **\_hello_first_last.qmd**
->
-> ``` markdown
-> {{< include _hello_first_last.qmd >}}
-> ```
->
-> </div>
->
+<div class="code-with-filename">
+
+**\_hello_first_last.qmd**
+
+``` markdown
+::: {.callout-tip title="Hi there!"}
+{{#person}}
+Hello, {{ honorific }} {{ name.first }} {{ name.last }}!
+{{/person}}
+:::
+```
+
+</div>
+
 > ``` markdown
 > {{< partial _hello_first_last.qmd person='{"honorific": "Mr.", "name": {"first": "Garrick", "last": "Aden-Buie"}}' >}}
 > ```
@@ -108,16 +112,20 @@ Finally, remember that you can use the full power of [mustache
 templating](https://mustache.github.io)! The next example creates a
 markdown list from an array of my favorite fruits.
 
-> <div class="code-with-filename">
->
-> **\_favorite_fruits.md**
->
-> ``` markdown
-> {{< include _favorite_fruits.md >}}
-> ```
->
-> </div>
->
+<div class="code-with-filename">
+
+**\_favorite_fruits.md**
+
+``` markdown
+These are a few of my favorite fruits:
+
+{{#fruits}}
+- {{.}}
+{{/fruits}}
+```
+
+</div>
+
 > ``` markdown
 > {{< partial _favorite_fruits.md fruits='["apple", "banana", "coconut", "mango"]' >}}
 > ```

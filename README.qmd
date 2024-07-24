@@ -49,9 +49,9 @@ The partial content can use [mustache templating syntax][mustache] and you can p
 
 For example, `_hello.md` contains the following content
 
-> ```{.markdown filename="_hello.md"}
-> {{< include _hello.md >}}
-> ```
+```{.markdown filename="_hello.md"}
+{{< include _hello.md >}}
+```
 
 and we can include the partial, providing our own value for `{{{ name }}}`:
 
@@ -64,11 +64,11 @@ and we can include the partial, providing our own value for `{{{ name }}}`:
 You can also include the partial data in the frontmatter of your document,
 using the `partial-data` key, e.g. 
 
-> ```yaml
-> partial-data:
->   name: "friend"
-> ```
-> 
+```yaml
+partial-data:
+  name: "friend"
+```
+
 > ```{.markdown shortcodes="false"}
 > {{< partial _hello.md >}}
 > 
@@ -81,12 +81,12 @@ using the `partial-data` key, e.g.
 
 Alternatively, the second argument of the shortcode can point to a custom key in your YAML frontmatter, e.g.
 
-> ```yaml
-> my-data:
->   friends:
->     name: amigo
-> ```
-> 
+```yaml
+my-data:
+  friends:
+    name: amigo
+```
+
 > ```{.markdown shortcodes="false"}
 > {{< partial _hello.md my-data.friends >}}
 > ```
@@ -99,10 +99,10 @@ Any key-value pair that starts with `{` or `[` will be parsed into a JSON object
 Note that the file type affects the output.
 The next example, in addition to using JSON data, uses a `.qmd` file to render the output as Quarto-processed markdown.
 
-> ````{.markdown filename="_hello_first_last.qmd"}
-> {{< include _hello_first_last.qmd >}}
-> ````
-> 
+````{.markdown filename="_hello_first_last.qmd"}
+{{< include _hello_first_last.qmd >}}
+````
+
 > ```{.markdown shortcodes="false"}
 > {{< partial _hello_first_last.qmd person='{"honorific": "Mr.", "name": {"first": "Garrick", "last": "Aden-Buie"}}' >}}
 > ```
@@ -112,10 +112,10 @@ The next example, in addition to using JSON data, uses a `.qmd` file to render t
 Finally, remember that you can use the full power of [mustache templating][mustache]!
 The next example creates a markdown list from an array of my favorite fruits.
 
-> ````{.markdown filename="_favorite_fruits.md"}
-> {{< include _favorite_fruits.md >}}
-> ````
-> 
+````{.markdown filename="_favorite_fruits.md"}
+{{< include _favorite_fruits.md >}}
+````
+
 > ```{.markdown shortcodes="false"}
 > {{< partial _favorite_fruits.md fruits='["apple", "banana", "coconut", "mango"]' >}}
 > ```
