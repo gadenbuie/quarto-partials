@@ -99,13 +99,9 @@ Any key-value pair that starts with `{` or `[` will be parsed into a JSON object
 Note that the file type affects the output.
 The next example, in addition to using JSON data, uses a `.qmd` file to render the output as Quarto-processed markdown.
 
-> ```{.markdown filename="_hello_first_last.qmd"}
-> ::: {.callout-tip title="Hi there!"}
-> {{#person}}
-> Hello, {{ honorific }} {{ name.first }} {{ name.last }}!
-> {{/person}}
-> :::
-> ```
+> ````{.markdown filename="_hello_first_last.qmd"}
+> {{< include _hello_first_last.qmd >}}
+> ````
 > 
 > ```{.markdown shortcodes="false"}
 > {{< partial _hello_first_last.qmd person='{"honorific": "Mr.", "name": {"first": "Garrick", "last": "Aden-Buie"}}' >}}
@@ -117,11 +113,7 @@ Finally, remember that you can use the full power of [mustache templating][musta
 The next example creates a markdown list from an array of my favorite fruits.
 
 > ````{.markdown filename="_favorite_fruits.md"}
-> These are a few of my favorite fruits:
-> 
-> {{#fruits}}
-> - {{.}}
-> {{/fruits}}
+> {{< include _favorite_fruits.md >}}
 > ````
 > 
 > ```{.markdown shortcodes="false"}
