@@ -1,0 +1,5 @@
+::: {.callout-tip title="Hi there!"}
+{{#person}}
+Hello, {{ honorific }} {{ name.first }} {{ name.last }}!
+{{/person}}
+:::

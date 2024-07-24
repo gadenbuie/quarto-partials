@@ -1,0 +1,129 @@
+---
+title: "Partial content templates for Quarto"
+subtitle: "Embed partial content in Quarto easily."
+
+format:
+  gfm: default
+  html:
+    toc: true
+    toc-level: 2
+    toc-location: right
+    toc-title: "quarto-partials"
+    code-links:
+      - text: gadenbuie/quarto-partials
+        href: "https://github.com/gadenbuie/quarto-partials"
+        icon: github
+      - text: Question or Issue?
+        href: "https://github.com/gadenbuie/quarto-partials/issues/new"
+        icon: question-circle-fill
+
+format-links: false
+
+partial-data:
+  name: "friend"
+
+my-data:
+  friends:
+    name: amigo
+---
+
+[mustache]: https://mustache.github.io
+[quarto]: https://quarto.org
+
+## Installing
+
+```bash
+quarto add gadenbuie/quarto-partials
+```
+
+This will install the extension under the `_extensions` subdirectory.
+If you're using version control, you will want to check in this directory.
+
+Once you've install the extension, you can use the `{{{< partial file ... >}}}` shortcode to include partial content from `file` in your [Quarto document][quarto]!
+
+
+## Example
+
+Use the `{{{< partial file ... >}}}` shortcode to include partial content from `file` in your Quarto document.
+The partial content can use [mustache templating syntax][mustache] and you can provide named key-value pairs in the shortcode to provide the template data.
+
+For example, `_hello.md` contains the following content
+
+> ```{.markdown filename="_hello.md"}
+> {{< include _hello.md >}}
+> ```
+
+and we can include the partial, providing our own value for `{{{ name }}}`:
+
+> ```{.markdown shortcodes="false"}
+> {{< partial _hello.md name="weary traveler" >}}
+> ```
+> 
+> {{< partial _hello.md name="weary traveler" >}}
+
+You can also include the partial data in the frontmatter of your document,
+using the `partial-data` key, e.g. 
+
+> ```yaml
+> partial-data:
+>   name: "friend"
+> ```
+> 
+> ```{.markdown shortcodes="false"}
+> {{< partial _hello.md >}}
+> 
+> Or used inline: To you I say "{{< partial _hello.md >}}"
+> ```
+> 
+> {{< partial _hello.md >}}
+>
+> Or used inline: To you I say "{{< partial _hello.md >}}"
+
+Alternatively, the second argument of the shortcode can point to a custom key in your YAML frontmatter, e.g.
+
+> ```yaml
+> my-data:
+>   friends:
+>     name: amigo
+> ```
+> 
+> ```{.markdown shortcodes="false"}
+> {{< partial _hello.md my-data.friends >}}
+> ```
+> 
+> {{< partial _hello.md my-data.friends >}}
+
+Another, possibly less convenient, option is to provide JSON in the shortcode data.
+Any key-value pair that starts with `{` or `[` will be parsed into a JSON object or array.
+
+Note that the file type affects the output.
+The next example, in addition to using JSON data, uses a `.qmd` file to render the output as Quarto-processed markdown.
+
+> ````{.markdown filename="_hello_first_last.qmd"}
+> {{< include _hello_first_last.qmd >}}
+> ````
+> 
+> ```{.markdown shortcodes="false"}
+> {{< partial _hello_first_last.qmd person='{"honorific": "Mr.", "name": {"first": "Garrick", "last": "Aden-Buie"}}' >}}
+> ```
+> 
+> {{< partial _hello_first_last.qmd person='{"honorific": "Mr.", "name": {"first": "Garrick", "last": "Aden-Buie"}}' >}}
+
+Finally, remember that you can use the full power of [mustache templating][mustache]!
+The next example creates a markdown list from an array of my favorite fruits.
+
+> ````{.markdown filename="_favorite_fruits.md"}
+> {{< include _favorite_fruits.md >}}
+> ````
+> 
+> ```{.markdown shortcodes="false"}
+> {{< partial _favorite_fruits.md fruits='["apple", "banana", "coconut", "mango"]' >}}
+> ```
+> 
+> {{< partial _favorite_fruits.md fruits='["apple", "banana", "coconut", "mango"]' >}}
+
+## Thanks!
+
+`partials` embeds [lustache](https://github.com/Olivine-Labs/lustache), a pure-Lua implementation of [mustache]. Thanks to the authors and contributors of these projects!
+
+Thanks, as always, to the developers of [Quarto]!
