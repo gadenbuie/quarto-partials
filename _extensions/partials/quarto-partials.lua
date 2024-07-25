@@ -123,18 +123,20 @@ local function quarto_partial(args, kwargs, meta, raw_args, context)
         assert(false, msg)
       end
     end
-  else
+  elseif meta[partial_key] then
     partial_data = copy(meta[partial_key])
   end
 
-  local data_str = pandoc_stringify(partial_data)
+  if #partial_data > 0 then
+    local data_str = pandoc_stringify(partial_data)
 
-  if type(data_str) == "string" then
-    quarto.log.error("Please choose a metadata key from your YAML frontmatter that contains a table of partial data.")
-    assert(false, "Expected a table of partial data in YAML frontmatter key " .. partial_key)
+    if type(data_str) == "string" then
+      quarto.log.error("Please choose a metadata key from your YAML frontmatter that contains a table of partial data.")
+      assert(false, "Expected a table of partial data in YAML frontmatter key " .. partial_key)
+    end
+
+    data = data_str
   end
-
-  data = data_str
 
   for k, v in pairs(kwargs) do
     local v_is_json_string = false
