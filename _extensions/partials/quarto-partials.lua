@@ -36,7 +36,9 @@ local function pandoc_stringify(obj)
     return pandoc.utils.stringify(obj)
   end
 
-  if type(obj) == "table" then
+  -- descend into tables and stringify to prevent concatenation, but not if they are "Blocks",
+  -- which are paragraphs.
+  if type(obj) == "table" and pandoc.utils.type(obj) ~= "Blocks" then
     for k, v in pairs(obj) do
       obj[k] = pandoc_stringify(v)
     end
