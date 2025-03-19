@@ -127,7 +127,7 @@ local function quarto_partial(args, kwargs, meta, raw_args, context)
     partial_data = copy(meta[partial_key])
   end
 
-  if #partial_data > 0 then
+  if next(partial_data) then
     local data_str = pandoc_stringify(partial_data)
 
     if type(data_str) == "string" then
