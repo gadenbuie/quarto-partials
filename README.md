@@ -57,9 +57,9 @@ partial-data:
 > Or used inline: To you I say "{{< partial _hello.md >}}"
 > ```
 >
-> Hello, !
+> Hello, friend!
 >
-> Or used inline: To you I say “Hello, !”
+> Or used inline: To you I say “Hello, friend!”
 
 Alternatively, the second argument of the shortcode can point to a
 custom key in your YAML frontmatter, e.g.
@@ -74,7 +74,7 @@ my-data:
 > {{< partial _hello.md my-data.friends >}}
 > ```
 >
-> Hello, !
+> Hello, amigo!
 
 Another, possibly less convenient, option is to provide JSON in the
 shortcode data. Any key-value pair that starts with `{` or `[` will be
