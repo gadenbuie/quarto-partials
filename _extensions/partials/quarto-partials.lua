@@ -38,7 +38,7 @@ local function pandoc_stringify(obj)
 
   if type(obj) == "table" then
     for k, v in pairs(obj) do
-      obj[k] = pandoc.utils.stringify(v)
+      obj[k] = pandoc_stringify(v)
     end
     return obj
   else
