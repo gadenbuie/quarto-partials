@@ -59,12 +59,18 @@ function copy(obj, seen)
 end
 
 local function render_partial(file, data, context)
-  -- from https://github.com/quarto-dev/quarto-cli/blob/7f211ce0d72a11cfea2094ea17620e0c97ce18ed/src/resources/filters/quarto-init/includes.lua#L52-L56
-  local f = io.open(pandoc.utils.stringify(file), "rb")
+  local prefix = ""
+  local path = pandoc.utils.stringify(file)
+  -- https://github.com/quarto-dev/quarto-cli/pull/8525
+  if string.sub(path, 1, 1) == "/" then
+    prefix = os.getenv("QUARTO_PROJECT_ROOT")
+  end
+  local f = io.open(prefix..path, "rb")
   if f == nil then 
-    fail("Error resolving " .. target .. "- unable to open file " .. file)
+    error("Error resolving partial - unable to open file " .. path)
   end
   local template = f:read("*all")
+
   f:close()
 
   local rendered = lustache:render(template, data)
