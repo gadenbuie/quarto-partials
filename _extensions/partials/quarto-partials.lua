@@ -58,16 +58,19 @@ function copy(obj, seen)
   return res
 end
 
-local function render_partial(file, data, context)
+local function normalize_quarto_path(file)
   local prefix = ""
   local path = pandoc.utils.stringify(file)
-  -- https://github.com/quarto-dev/quarto-cli/pull/8525
   if string.sub(path, 1, 1) == "/" then
     prefix = os.getenv("QUARTO_PROJECT_ROOT")
   end
-  local f = io.open(prefix..path, "rb")
+  return prefix..path
+end
+
+local function render_partial(file, data, context)
+  local f = io.open(normalize_quarto_path(file), "rb")
   if f == nil then 
-    error("Error resolving partial - unable to open file " .. path)
+    error("Error resolving partial - unable to open file " .. file)
   end
   local template = f:read("*all")
 
