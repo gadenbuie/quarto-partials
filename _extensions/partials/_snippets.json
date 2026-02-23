@@ -1,0 +1,16 @@
+{
+  "Partial": {
+    "prefix": "partial",
+    "body": [
+      "{{< partial ${1:template.qmd} >}}"
+    ],
+    "description": "Insert a partial with a template file."
+  },
+  "Partial with Data Source": {
+    "prefix": "data",
+    "body": [
+      "{{< partial ${1:template.qmd} ${2:data-key} ${3:var}=${4:value} >}}"
+    ],
+    "description": "Insert a partial with a data source key and template variables."
+  }
+}

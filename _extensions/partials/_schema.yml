@@ -1,0 +1,15 @@
+$schema: https://m.canouil.dev/quarto-wizard/assets/schema/v1/extension-schema.json
+
+shortcodes:
+  partial:
+    description: "Render a Mustache template partial with data from YAML metadata or keyword arguments."
+    arguments:
+      - name: file
+        type: string
+        required: true
+        description: "Path to the template file (.qmd, .md, .html, .tex, or .txt)."
+        completion:
+          type: file
+      - name: data-source
+        type: string
+        description: "Dot-separated key path into YAML metadata for template data (defaults to 'partial-data')."
