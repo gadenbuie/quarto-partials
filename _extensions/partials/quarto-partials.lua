@@ -70,7 +70,7 @@ local function normalize_quarto_path(file)
     path = string.sub(path, 2, -1)
   elseif string.sub(leader, 1, 1) == "/" then
     -- QUARTO ROOT STARTS WITH /
-    prefix = os.getenv("QUARTO_PROJECT_ROOT")
+    prefix = os.getenv("QUARTO_PROJECT_ROOT") or ""
   end
   return prefix..path
 end
