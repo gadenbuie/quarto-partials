@@ -73,7 +73,7 @@ end
 
 local function render_partial(file, data, context)
   local path = normalize_quarto_path(file)
-  local f = io.open(path, "rb")
+  local f = io.open(path, "r")
   if f == nil then 
     error("Error resolving partial - unable to open file " .. path)
   end
