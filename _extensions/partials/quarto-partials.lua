@@ -58,9 +58,27 @@ function copy(obj, seen)
   return res
 end
 
+local function normalize_quarto_path(file)
+  local prefix = ""
+  local path = pandoc.utils.stringify(file)
+  if path:sub(1, 7) == "file://" then
+    path = path:sub(8)
+  elseif path:sub(1, 2) == "//" then
+    path = path:sub(2)
+  elseif path:sub(1, 1) == "/" then
+    prefix = os.getenv("QUARTO_PROJECT_ROOT") or ""
+  end
+  return prefix..path
+end
+
 local function render_partial(file, data, context)
-  local f = io.open(file, "r")
-  local template = f:read("a")
+  local path = normalize_quarto_path(file)
+  local f = io.open(path, "r")
+  if f == nil then 
+    error("Error resolving partial - unable to open file " .. path)
+  end
+  local template = f:read("*all")
+
   f:close()
 
   local rendered = lustache:render(template, data)
@@ -70,7 +88,7 @@ local function render_partial(file, data, context)
     return pandoc.Str(rendered)
   end
 
-  if string.match(file, "%.qmd") then
+  if string.match(path, "%.qmd") then
     -- And `.qmd` through Quarto
     if context == "block" then
       return quarto.utils.string_to_blocks(rendered)
@@ -78,7 +96,7 @@ local function render_partial(file, data, context)
       return quarto.utils.string_to_inlines(rendered)
     end
 
-  elseif string.match(file, "%.md") or string.match(file, "%.txt") then
+  elseif string.match(path, "%.md") or string.match(path, "%.txt") then
     -- Render `.md` through Pandoc
 rendered = pandoc.read(rendered)
     if context == "inline" then
@@ -86,15 +104,15 @@ rendered = pandoc.read(rendered)
     end
     return rendered.blocks
 
-    
-  elseif string.match(file, "%.tex")  then
+
+  elseif string.match(path, "%.tex")  then
     -- Limit `.tex` to LaTeX documents
     if context == "inline" then
       return pandoc.RawBlock('tex', rendered)
     end
     return pandoc.RawBlock('tex', rendered)
-  
-  elseif string.match(file, "%.html") then
+
+  elseif string.match(path, "%.html") then
     -- And `.html` for HTML documents
     if context == "inline" then
       return pandoc.RawInline('html', rendered)
